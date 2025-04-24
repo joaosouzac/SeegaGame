@@ -12,6 +12,9 @@ namespace SeegaUI
 {
     public partial class StartWindow : Form
     {
+        public event EventHandler OpenHostWindow;
+        public event EventHandler OpenClientWindow;
+
         public StartWindow()
         {
             InitializeComponent();
@@ -19,16 +22,12 @@ namespace SeegaUI
 
         private void hostButton_Click(object sender, EventArgs e)
         {
-            HostConfigWindow hostConfigWindow = new HostConfigWindow();
-
-            hostConfigWindow.Show();
-
-            this.Close();
+            OpenHostWindow?.Invoke(this, EventArgs.Empty);
         }
 
         private void joinButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Abrir tela de configuração de cliente!");
+            OpenClientWindow?.Invoke(this, EventArgs.Empty);
         }
     }
 }
