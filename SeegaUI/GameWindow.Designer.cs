@@ -33,13 +33,17 @@
             label1 = new Label();
             ChatPanel = new FlowLayoutPanel();
             flowLayoutPanel2 = new FlowLayoutPanel();
-            ChatTextBox = new TextBox();
             SendButton = new Button();
             dataGridView1 = new DataGridView();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            label2 = new Label();
+            playerNameLabel = new Label();
+            ChatTextBox = new RichTextBox();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -51,6 +55,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 2, 0);
             tableLayoutPanel1.Controls.Add(dataGridView1, 1, 1);
+            tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -60,7 +65,6 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20.2959824F));
             tableLayoutPanel1.Size = new Size(836, 485);
             tableLayoutPanel1.TabIndex = 0;
-            tableLayoutPanel1.Paint += tableLayoutPanel1_Paint;
             // 
             // tableLayoutPanel2
             // 
@@ -117,22 +121,13 @@
             flowLayoutPanel2.Size = new Size(274, 39);
             flowLayoutPanel2.TabIndex = 3;
             // 
-            // ChatTextBox
-            // 
-            ChatTextBox.Dock = DockStyle.Left;
-            ChatTextBox.Location = new Point(3, 3);
-            ChatTextBox.Name = "ChatTextBox";
-            ChatTextBox.PlaceholderText = "Digite aqui...";
-            ChatTextBox.Size = new Size(164, 27);
-            ChatTextBox.TabIndex = 0;
-            // 
             // SendButton
             // 
             SendButton.AutoSize = true;
             SendButton.Dock = DockStyle.Right;
-            SendButton.Location = new Point(173, 3);
+            SendButton.Location = new Point(134, 3);
             SendButton.Name = "SendButton";
-            SendButton.Size = new Size(94, 30);
+            SendButton.Size = new Size(94, 120);
             SendButton.TabIndex = 1;
             SendButton.Text = "Send";
             SendButton.UseVisualStyleBackColor = true;
@@ -148,6 +143,46 @@
             dataGridView1.Size = new Size(360, 265);
             dataGridView1.TabIndex = 1;
             // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Controls.Add(label2);
+            flowLayoutPanel1.Controls.Add(playerNameLabel);
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.Location = new Point(193, 3);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(360, 108);
+            flowLayoutPanel1.TabIndex = 2;
+            // 
+            // label2
+            // 
+            label2.Font = new Font("Segoe UI", 14F);
+            label2.Location = new Point(3, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(357, 49);
+            label2.TabIndex = 0;
+            label2.Text = "Turno de...";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // playerNameLabel
+            // 
+            playerNameLabel.AutoSize = true;
+            playerNameLabel.Dock = DockStyle.Fill;
+            playerNameLabel.Font = new Font("Segoe UI", 19F, FontStyle.Bold);
+            playerNameLabel.Location = new Point(3, 49);
+            playerNameLabel.Name = "playerNameLabel";
+            playerNameLabel.Size = new Size(357, 45);
+            playerNameLabel.TabIndex = 1;
+            playerNameLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // ChatTextBox
+            // 
+            ChatTextBox.Location = new Point(3, 3);
+            ChatTextBox.Name = "ChatTextBox";
+            ChatTextBox.Size = new Size(125, 120);
+            ChatTextBox.TabIndex = 2;
+            ChatTextBox.Text = "";
+            // 
             // GameWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -162,6 +197,8 @@
             flowLayoutPanel2.ResumeLayout(false);
             flowLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -170,10 +207,13 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label1;
-        private FlowLayoutPanel ChatPanel;
         private FlowLayoutPanel flowLayoutPanel2;
-        private TextBox ChatTextBox;
         private Button SendButton;
         private DataGridView dataGridView1;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Label label2;
+        private Label playerNameLabel;
+        private FlowLayoutPanel ChatPanel;
+        private RichTextBox ChatTextBox;
     }
 }

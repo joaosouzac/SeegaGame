@@ -2,18 +2,17 @@
 using System.Net;
 using Sockets;
 
-
 namespace SeegaUI.Args
 {
-    public class ConnectionEventArgs : EventArgs
+    public class ServerEventArgs : EventArgs
     {
         public Player Player { get; set; }
         public TCPServer Host { get; set; }
 
-        public ConnectionEventArgs(Player player, TCPServer host)
+        public ServerEventArgs(Player player, TCPServer host)
         {
-            Player = player;
-            Host = host;
+            this.Player = player;
+            this.Host = host;
         }
     }
 }

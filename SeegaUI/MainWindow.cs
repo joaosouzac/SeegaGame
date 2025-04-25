@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SeegaLogic;
+using Sockets;
 
 namespace SeegaUI
 {
@@ -51,9 +53,13 @@ namespace SeegaUI
         {
             HostConfigWindow hostConfigWindow = new HostConfigWindow();
 
-            hostConfigWindow.ConnectionArgs += (s, args) =>
+            hostConfigWindow.HostGame += (s, args) =>
             {
-                MessageBox.Show($"{args.PlayerName} | {args.IpAddress}:{args.Port}");
+                args.Host.StartConnection();
+                
+                hostConfigWindow.Hide();
+
+                ShowGameWindow(args.Player, args.Host);
 
             };
 
@@ -63,12 +69,32 @@ namespace SeegaUI
 
         private void ShowClientConfigWindow()
         {
-            // PENDENTE
+            ClientConfigWindow clientConfigWindow = new ClientConfigWindow();
+
+            clientConfigWindow.JoinGame += (s, args) =>
+            {
+                args.Client.RequestConnection();
+
+                clientConfigWindow.Hide();
+
+                ShowGameWindow(args.Player, args.Client);
+            };
+
+            clientConfigWindow.FormClosed += (s, args) => this.Close();
+            clientConfigWindow.Show();
         }
 
-        private void ShowGameWindow()
+        private void ShowGameWindow(Player player, TCPServer host)
         {
-            GameWindow gameWindow = new GameWindow();
+            GameWindow gameWindow = new GameWindow(player, host);
+
+            gameWindow.FormClosed += (s, args) => this.Close();
+            gameWindow.Show();
+        }
+
+        private void ShowGameWindow(Player player, TCPClient client)
+        {
+            GameWindow gameWindow = new GameWindow(player, client);
 
             gameWindow.FormClosed += (s, args) => this.Close();
             gameWindow.Show();

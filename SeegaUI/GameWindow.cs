@@ -7,14 +7,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
+using SeegaLogic;
+using Sockets;
+
 
 namespace SeegaUI
 {
     public partial class GameWindow : Form
     {
-        public GameWindow()
+        public Player Player;
+        private TCPServer Host;
+        private TCPClient Client;
+
+        public GameWindow(Player player, TCPServer host)
         {
             InitializeComponent();
+            this.Player = player;
+            this.Host = host;
+
+            playerNameLabel.Text = Player.Name;
+            playerNameLabel.ForeColor = Color.Red;
+
+        }
+
+        public GameWindow(Player player, TCPClient client)
+        {
+            InitializeComponent();
+            this.Player = player;
+            this.Client = client;
+
+            playerNameLabel.Text = Player.Name;
+            playerNameLabel.ForeColor = Player.Color;
         }
 
         private void SendMessage(object sender, EventArgs e)
@@ -23,16 +47,11 @@ namespace SeegaUI
 
             ChatPanel.Controls.Add(new Label
             {
-                Text = $"[Você]: {ChatTextBox.Text}",
+                Text = $"{Player.Name}: {ChatTextBox.Text}",
                 AutoSize = true,
             });
 
             ChatTextBox.Clear();
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

@@ -1,19 +1,13 @@
 ﻿using SeegaUI.Args;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using SeegaLogic;
+using Sockets;
+using System.Net;
 
 namespace SeegaUI
 {
     public partial class HostConfigWindow : Form
     {
-        public event EventHandler<ConnectionEventArgs> ConnectionArgs;
+        public event EventHandler<ServerEventArgs> HostGame;
         public HostConfigWindow()
         {
             InitializeComponent();
@@ -21,17 +15,17 @@ namespace SeegaUI
 
         private void hostButton_Click(object sender, EventArgs e)
         {
-            string playerNameText = nameTextBox.Text;
-            string ipAddressText = ipAddressTextBox.Text;
-            string portText = portTextBox.Text;
 
-            ConnectionEventArgs connectionOptions = new ConnectionEventArgs(
-                playerNameText,
-                ipAddressText,
-                portText
+            Player player = new Player(nameTextBox.Text, Color.Red);
+
+            TCPServer host = new TCPServer(
+                IPAddress.Parse(ipAddressTextBox.Text),
+                int.Parse(portTextBox.Text)
                 );
 
-            ConnectionArgs?.Invoke(this, connectionOptions);
+            ServerEventArgs connectionOptions = new ServerEventArgs(player, host);
+
+            HostGame?.Invoke(this, connectionOptions);
 
         }
     }

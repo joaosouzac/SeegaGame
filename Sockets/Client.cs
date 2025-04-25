@@ -3,13 +3,16 @@ using System.Net.Sockets;
 
 namespace Sockets
 {
-    public class TCPClient()
+    public class TCPClient(IPAddress ip, int port)
     {
+        public IPAddress ip = ip;
+        public int port = port;
+
         public TcpClient connection = new TcpClient();
 
         public NetworkStream stream;
 
-        public void RequestConnection(IPAddress ip, int port)
+        public void RequestConnection()
         {
             Console.WriteLine("Solicitação de conexão enviada. Aguardando resposta do servidor...");
             connection.Connect(ip, port);

@@ -3,17 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForTest", "ForTest\ForTest.csproj", "{D40443CC-87E9-45D8-ABF4-7FD89024DF10}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeegaLogic", "SeegaLogic\SeegaLogic.csproj", "{2255EB0C-2EA8-4901-9DE1-3AAFDAF78EE9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sockets", "Sockets\Sockets.csproj", "{B8ACF85F-22B9-4BBB-944C-4B62A65E7DAA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debug", "Debug", "{332D9520-C62B-491D-A621-6340FEA8BE3A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientSide", "ClientSide\ClientSide.csproj", "{CFAAA16D-444C-4E16-88F7-65F0AFB08A9A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerSide", "ServerSide\ServerSide.csproj", "{FDCAB172-42EE-459C-8A8F-AD1549264A28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeegaUI", "SeegaUI\SeegaUI.csproj", "{024E4BFC-A35C-4615-8A04-E4248A2469E5}"
 EndProject
@@ -23,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D40443CC-87E9-45D8-ABF4-7FD89024DF10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D40443CC-87E9-45D8-ABF4-7FD89024DF10}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D40443CC-87E9-45D8-ABF4-7FD89024DF10}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D40443CC-87E9-45D8-ABF4-7FD89024DF10}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2255EB0C-2EA8-4901-9DE1-3AAFDAF78EE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2255EB0C-2EA8-4901-9DE1-3AAFDAF78EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2255EB0C-2EA8-4901-9DE1-3AAFDAF78EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,14 +23,6 @@ Global
 		{B8ACF85F-22B9-4BBB-944C-4B62A65E7DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8ACF85F-22B9-4BBB-944C-4B62A65E7DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8ACF85F-22B9-4BBB-944C-4B62A65E7DAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CFAAA16D-444C-4E16-88F7-65F0AFB08A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CFAAA16D-444C-4E16-88F7-65F0AFB08A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CFAAA16D-444C-4E16-88F7-65F0AFB08A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CFAAA16D-444C-4E16-88F7-65F0AFB08A9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDCAB172-42EE-459C-8A8F-AD1549264A28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDCAB172-42EE-459C-8A8F-AD1549264A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDCAB172-42EE-459C-8A8F-AD1549264A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDCAB172-42EE-459C-8A8F-AD1549264A28}.Release|Any CPU.Build.0 = Release|Any CPU
 		{024E4BFC-A35C-4615-8A04-E4248A2469E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{024E4BFC-A35C-4615-8A04-E4248A2469E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{024E4BFC-A35C-4615-8A04-E4248A2469E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,11 +30,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{D40443CC-87E9-45D8-ABF4-7FD89024DF10} = {332D9520-C62B-491D-A621-6340FEA8BE3A}
-		{CFAAA16D-444C-4E16-88F7-65F0AFB08A9A} = {332D9520-C62B-491D-A621-6340FEA8BE3A}
-		{FDCAB172-42EE-459C-8A8F-AD1549264A28} = {332D9520-C62B-491D-A621-6340FEA8BE3A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C83C4944-B261-4F38-8158-26D986C5F338}
