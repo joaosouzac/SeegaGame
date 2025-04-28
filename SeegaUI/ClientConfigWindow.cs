@@ -25,14 +25,14 @@ namespace SeegaUI
 
         private void JoinButton_Click(object sender, EventArgs e)
         {
-            Player player = new Player(nameTextBox.Text, Color.Blue);
+            //Player player = new Player(nameTextBox.Text, Color.LightBlue);
 
-            TCPClient client = new TCPClient(
+            Client client = new Client(
                 IPAddress.Parse(ipAddressTextBox.Text),
                 int.Parse(portTextBox.Text)
                 );
 
-            ClientEventArgs connectionOptions = new ClientEventArgs(player, client);
+            ClientEventArgs connectionOptions = new ClientEventArgs(client);
 
             JoinGame?.Invoke(this, connectionOptions);
         }

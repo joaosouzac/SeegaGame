@@ -1,60 +1,75 @@
 ﻿using System;
-using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
+using System.Threading;
 
 namespace Sockets
 {
-    public class TCPServer(IPAddress ip, int port)
+    public class Server
     {
-        public IPAddress ip = ip;
-        public int port = port;
+        private IPAddress ip;
+        private int port;
 
-        public TcpListener listener = new TcpListener(ip, port);
+        private TcpListener server;
+        private TcpClient client;
+        private NetworkStream stream;
 
-        public TcpClient client;
+        private Thread receiveThread;
 
-        public NetworkStream stream;
+        public event Action<string> MessageReceived;
 
-        // Inicia o servidor TCP
-        public void StartConnection()
+        public Server(IPAddress ip, int port)
         {
-            // Inicia o server TCP
-            listener.Start();
-
-            Console.WriteLine($"Servidor escutando na porta {port}...");
-
-            // Aguarde e aceita uma conexão de um cliente TCP
-            Console.WriteLine("Aguardando conexão com cliente...");
-
-            client = listener.AcceptTcpClient();
-            Console.WriteLine("Cliente conectado com sucesso!");
-
-            // Estabelece um stream de dados para recebimento / envio
-            stream = client.GetStream();
-
-            Console.WriteLine("Stream instanciado com sucesso!");
-
-            Console.WriteLine();
+            this.ip = ip;
+            this.port = port;
         }
 
-        public void StopConnection()
+        public void Start()
         {
-            // Encerra o stream de dados 
-            stream.Close();
-            Console.WriteLine("Stream encerrado com sucesso!");
+            this.server = new TcpListener(this.ip, this.port);
+            this.server.Start();
 
-            // Encerra a conexão TCP com cliente
-            client.Close();
-            Console.WriteLine("Cliente desconectado com sucesso!");
+            this.client = this.server.AcceptTcpClient();
 
-            // Para o servidor TCP
-            listener.Stop();
-            Console.WriteLine("Servidor desligado com sucesso!");
+            this.stream = this.client.GetStream();
 
-            Console.WriteLine();
+            this.receiveThread = new Thread(this.ReceiveData);
+
+            this.receiveThread.IsBackground = true;
+            this.receiveThread.Start();
         }
-        
-        
+
+        public void SendMessage(string message)
+        {
+            if (this.stream != null && this.stream.CanWrite)
+            {
+                byte[] data = Encoding.UTF8.GetBytes(message);
+
+                this.stream.Write(data, 0, data.Length);
+            }
+        }
+
+        private void ReceiveData()
+        {
+            byte[] buffer = new byte[1024];
+            try
+            {
+                while (true)
+                {
+                    int bytesRead = this.stream.Read(buffer, 0, buffer.Length);
+                    if (bytesRead > 0)
+                    {
+                        string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+                        this.MessageReceived?.Invoke(message);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // conexão encerrada
+            }
+        }
     }
 }

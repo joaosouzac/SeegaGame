@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SeegaUI.GameWindow;
 using SeegaLogic;
 using Sockets;
 
@@ -55,11 +56,11 @@ namespace SeegaUI
 
             hostConfigWindow.HostGame += (s, args) =>
             {
-                args.Host.StartConnection();
+                //args.Host.StartConnection();
                 
                 hostConfigWindow.Hide();
 
-                ShowGameWindow(args.Player, args.Host);
+                ShowServerGameWindow(args.Host);
 
             };
 
@@ -73,31 +74,31 @@ namespace SeegaUI
 
             clientConfigWindow.JoinGame += (s, args) =>
             {
-                args.Client.RequestConnection();
+                //args.Client.RequestConnection();
 
                 clientConfigWindow.Hide();
 
-                ShowGameWindow(args.Player, args.Client);
+                ShowClientGameWindow(args.Client);
             };
 
             clientConfigWindow.FormClosed += (s, args) => this.Close();
             clientConfigWindow.Show();
         }
 
-        private void ShowGameWindow(Player player, TCPServer host)
+        private void ShowServerGameWindow(Server host)
         {
-            GameWindow gameWindow = new GameWindow(player, host);
+            ServerGameWindow serverGameWindow = new ServerGameWindow(host);
 
-            gameWindow.FormClosed += (s, args) => this.Close();
-            gameWindow.Show();
+            serverGameWindow.FormClosed += (s, args) => this.Close();
+            serverGameWindow.Show();
         }
 
-        private void ShowGameWindow(Player player, TCPClient client)
+        private void ShowClientGameWindow(Client client)
         {
-            GameWindow gameWindow = new GameWindow(player, client);
+            ClientGameWindow clientGameWindow = new ClientGameWindow(client);
 
-            gameWindow.FormClosed += (s, args) => this.Close();
-            gameWindow.Show();
+            clientGameWindow.FormClosed += (s, args) => this.Close();
+            clientGameWindow.Show();
         }
     }
 }

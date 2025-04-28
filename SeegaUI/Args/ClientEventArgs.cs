@@ -10,12 +10,12 @@ namespace SeegaUI.Args
 {
     public class ClientEventArgs : EventArgs
     {
-        public Player Player { get; set; }
-        public TCPClient Client { get; set; }
+        //public Player Player { get; set; }
+        public Client Client { get; set; }
 
-        public ClientEventArgs(Player player, TCPClient client)
+        public ClientEventArgs(Client client)
         {
-            this.Player = player;
+            
             this.Client = client;
         }
     }

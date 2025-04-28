@@ -16,14 +16,14 @@ namespace SeegaUI
         private void hostButton_Click(object sender, EventArgs e)
         {
 
-            Player player = new Player(nameTextBox.Text, Color.Red);
+            //Player player = new Player(nameTextBox.Text, Color.Red);
 
-            TCPServer host = new TCPServer(
+            Server host = new Server(
                 IPAddress.Parse(ipAddressTextBox.Text),
                 int.Parse(portTextBox.Text)
                 );
 
-            ServerEventArgs connectionOptions = new ServerEventArgs(player, host);
+            ServerEventArgs connectionOptions = new ServerEventArgs(host);
 
             HostGame?.Invoke(this, connectionOptions);
 

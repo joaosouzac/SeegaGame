@@ -1,38 +1,70 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
+using System.Text;
+using System.Threading;
 
 namespace Sockets
 {
-    public class TCPClient(IPAddress ip, int port)
+    public class Client
     {
-        public IPAddress ip = ip;
-        public int port = port;
+        private IPAddress ip;
+        private int port;
 
-        public TcpClient connection = new TcpClient();
+        private TcpClient client;
+        private NetworkStream stream;
 
-        public NetworkStream stream;
+        private Thread receiveThread;
 
-        public void RequestConnection()
+        public event Action<string> MessageReceived;
+
+        public Client(IPAddress ip, int port)
         {
-            Console.WriteLine("Solicitação de conexão enviada. Aguardando resposta do servidor...");
-            connection.Connect(ip, port);
-
-            Console.WriteLine("Conexão TCP estabelecida com sucesso!");
-
-            stream = connection.GetStream();
-            Console.WriteLine("Stream de dados instaciado com sucesso!");
-
+            this.ip = ip;
+            this.port = port;
         }
 
-        public void CloseConnection()
+        public void Connect()
         {
-            stream.Close();
+            this.client = new TcpClient();
+            this.client.Connect(this.ip, this.port);
+            this.stream = this.client.GetStream();
 
-            connection.Close();
+            this.receiveThread = new Thread(this.ReceiveData);
+            this.receiveThread.IsBackground = true;
+            this.receiveThread.Start();
+        }
 
-            Console.WriteLine("Conexão encerrada com sucesso!");
+        public void SendMessage(string message)
+        {
+            if (this.stream != null && this.stream.CanWrite)
+            {
+                byte[] data = Encoding.UTF8.GetBytes(message);
 
-            Console.WriteLine();
+                this.stream.Write(data, 0, data.Length);
+            }
+        }
+
+        private void ReceiveData()
+        {
+            byte[] buffer = new byte[1024];
+            try
+            {
+                while (true)
+                {
+                    int bytesRead = this.stream.Read(buffer, 0, buffer.Length);
+                    if (bytesRead > 0)
+                    {
+                        string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+                        this.MessageReceived?.Invoke(message);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // conexão encerrada
+            }
         }
     }
 }
