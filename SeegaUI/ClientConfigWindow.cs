@@ -27,10 +27,17 @@ namespace SeegaUI
         {
             //Player player = new Player(nameTextBox.Text, Color.LightBlue);
 
+            // CÓDIGO DE PRODUÇÃO - USAR NO PROJETO FINAL
+
+            /*
             Client client = new Client(
                 IPAddress.Parse(ipAddressTextBox.Text),
                 int.Parse(portTextBox.Text)
                 );
+            */
+
+            // DEBUG - CLIENTE LOCAL PRÉ-CONFIGURADO
+            Client client = new Client(IPAddress.Loopback, 12345);
 
             ClientEventArgs connectionOptions = new ClientEventArgs(client);
 

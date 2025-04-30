@@ -18,10 +18,15 @@ namespace SeegaUI
 
             //Player player = new Player(nameTextBox.Text, Color.Red);
 
+            // CÓDIGO DE PRODUÇÃO - USAR NO PROJETO FINAL
+            /*
             Server host = new Server(
                 IPAddress.Parse(ipAddressTextBox.Text),
                 int.Parse(portTextBox.Text)
                 );
+            */
+
+            Server host = new Server(IPAddress.Loopback, 12345);
 
             ServerEventArgs connectionOptions = new ServerEventArgs(host);
 

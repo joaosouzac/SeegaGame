@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            GameStatusLabel = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             label1 = new Label();
@@ -35,13 +36,22 @@
             flowLayoutPanel2 = new FlowLayoutPanel();
             ChatTextbox = new RichTextBox();
             SendButton = new Button();
-            dataGridView1 = new DataGridView();
-            label2 = new Label();
+            GameBoardPanel = new TableLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
+            // 
+            // GameStatusLabel
+            // 
+            GameStatusLabel.AutoSize = true;
+            tableLayoutPanel1.SetColumnSpan(GameStatusLabel, 2);
+            GameStatusLabel.Dock = DockStyle.Fill;
+            GameStatusLabel.Location = new Point(3, 0);
+            GameStatusLabel.Name = "GameStatusLabel";
+            GameStatusLabel.Size = new Size(500, 106);
+            GameStatusLabel.TabIndex = 4;
+            GameStatusLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
             // 
@@ -51,8 +61,8 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36.75F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 2, 0);
-            tableLayoutPanel1.Controls.Add(dataGridView1, 1, 1);
-            tableLayoutPanel1.Controls.Add(label2, 1, 0);
+            tableLayoutPanel1.Controls.Add(GameStatusLabel, 0, 0);
+            tableLayoutPanel1.Controls.Add(GameBoardPanel, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -60,6 +70,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 23.6786461F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 56.02537F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20.2959824F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(800, 450);
             tableLayoutPanel1.TabIndex = 2;
             // 
@@ -132,29 +143,28 @@
             SendButton.TabIndex = 1;
             SendButton.Text = "Send";
             SendButton.UseVisualStyleBackColor = true;
-            SendButton.Click += SendButton_Click;
             // 
-            // dataGridView1
+            // GameBoardPanel
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(149, 109);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(354, 246);
-            dataGridView1.TabIndex = 1;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Dock = DockStyle.Fill;
-            label2.Font = new Font("Segoe UI", 25F);
-            label2.Location = new Point(149, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(354, 106);
-            label2.TabIndex = 2;
-            label2.Text = "Client";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
+            GameBoardPanel.ColumnCount = 5;
+            tableLayoutPanel1.SetColumnSpan(GameBoardPanel, 2);
+            GameBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            GameBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            GameBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            GameBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            GameBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            GameBoardPanel.Dock = DockStyle.Fill;
+            GameBoardPanel.Location = new Point(3, 109);
+            GameBoardPanel.Name = "GameBoardPanel";
+            GameBoardPanel.RowCount = 5;
+            tableLayoutPanel1.SetRowSpan(GameBoardPanel, 2);
+            GameBoardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            GameBoardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            GameBoardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            GameBoardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            GameBoardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            GameBoardPanel.Size = new Size(500, 338);
+            GameBoardPanel.TabIndex = 3;
             // 
             // ClientGameWindow
             // 
@@ -163,7 +173,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(tableLayoutPanel1);
             Name = "ClientGameWindow";
-            Text = "ClientGameWindow";
+            Text = "Seega - Client";
             Load += ClientGameWindow_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
@@ -171,12 +181,12 @@
             tableLayoutPanel2.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
             flowLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
+        private Label GameStatusLabel;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label1;
@@ -184,7 +194,6 @@
         private FlowLayoutPanel flowLayoutPanel2;
         private RichTextBox ChatTextbox;
         private Button SendButton;
-        private DataGridView dataGridView1;
-        private Label label2;
+        private TableLayoutPanel GameBoardPanel;
     }
 }
