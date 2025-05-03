@@ -143,6 +143,7 @@
             SendButton.TabIndex = 1;
             SendButton.Text = "Send";
             SendButton.UseVisualStyleBackColor = true;
+            SendButton.Click += SendButton_Click;
             // 
             // GameBoardPanel
             // 
