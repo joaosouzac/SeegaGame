@@ -7,41 +7,70 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SeegaLogic;
 using SeegaLogic.Network;
+using SeegaLogic;
 using Sockets;
 
-namespace SeegaUI.GameWindow
+namespace SeegaUI
 {
-    public partial class ClientGameWindow : Form
+    public partial class GameWindow : Form
     {
-        private Client client;
+        private Server? server;
+        private Client? client;
+
+        private MessageHandler handler;
 
         private Game game;
         private Button[,] buttons = new Button[5, 5];
 
-        private ClientHandler handler;
+        public GameWindow(Server server, int playerID)
+        {
+            InitializeComponent();
 
-        public ClientGameWindow(Client client)
+            this.server = server;
+
+            this.game = new Game(playerID);
+
+            this.handler = new MessageHandler(this.game, this.server);
+
+            this.Text = "Seega - Server";
+
+            this.server.MessageReceived += handler.HandleMessage;
+            this.handler.ChatReceived += (msg) => AddMessage("Opponent: " + msg, Color.LightBlue);
+            this.handler.BoardUpdated += () => UpdateBoard();
+
+            this.CreateBoard();
+        }
+        
+        public GameWindow(Client client, int playerID)
         {
             InitializeComponent();
 
             this.client = client;
 
-            this.game = new Game();
+            this.game = new Game(playerID);
 
-            this.handler = new ClientHandler(this.game, this.client);
+            this.handler = new MessageHandler(this.game, this.client);
+
+            this.Text = "Seega - Client";
 
             this.client.MessageReceived += handler.HandleMessage;
             this.handler.ChatReceived += (msg) => AddMessage("Opponent: " + msg, Color.LightBlue);
             this.handler.BoardUpdated += () => UpdateBoard();
 
-            CreateBoard();
+            this.CreateBoard();
         }
 
-        private void ClientGameWindow_Load(object sender, EventArgs e)
+        private void ServerGameWindow_Load(object sender, EventArgs e)
         {
-            this.client.Connect();
+            if (this.handler.isServer)
+            {
+                this.server.Start();
+            }
+            else if (!this.handler.isServer)
+            {
+                this.client.Connect();
+            }
         }
 
         private void SendButton_Click(object sender, EventArgs e)
@@ -52,7 +81,6 @@ namespace SeegaUI.GameWindow
             {
                 this.handler.SendChat(message);
                 AddSentMessage("You: " + message);
-
                 this.ChatTextbox.Clear();
             }
         }
@@ -67,11 +95,13 @@ namespace SeegaUI.GameWindow
             if (text.StartsWith("CHAT:"))
             {
                 string chatText = text.Substring(5); // remove prefixo
-                AddMessage("Opponent: " + chatText, Color.LightPink);
+
+                AddMessage("Opponent: " + chatText, Color.LightBlue);
             }
             else if (text.StartsWith("MOVE:"))
             {
                 string[] parts = text.Substring(5).Split(',');
+
                 int row = int.Parse(parts[0]);
                 int col = int.Parse(parts[1]);
 
@@ -178,7 +208,7 @@ namespace SeegaUI.GameWindow
                 }
             }
 
-            this.GameStatusLabel.Text = $"Cliente - Turno: Jogador {this.game.Turn} - Fase: {this.game.Phase}";
+            this.GameStatusLabel.Text = $"Servidor - Turno: Jogador {this.game.Turn} - Fase: {this.game.Phase}";
         }
     }
 }

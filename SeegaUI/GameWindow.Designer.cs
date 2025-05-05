@@ -1,6 +1,6 @@
-﻿namespace SeegaUI.GameWindow
+﻿namespace SeegaUI
 {
-    partial class ServerGameWindow
+    partial class GameWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            GameStatusLabel = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             label1 = new Label();
@@ -35,12 +36,22 @@
             flowLayoutPanel2 = new FlowLayoutPanel();
             ChatTextbox = new RichTextBox();
             SendButton = new Button();
-            GameStatusLabel = new Label();
             GameBoardPanel = new TableLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             SuspendLayout();
+            // 
+            // GameStatusLabel
+            // 
+            GameStatusLabel.AutoSize = true;
+            tableLayoutPanel1.SetColumnSpan(GameStatusLabel, 2);
+            GameStatusLabel.Dock = DockStyle.Fill;
+            GameStatusLabel.Location = new Point(3, 0);
+            GameStatusLabel.Name = "GameStatusLabel";
+            GameStatusLabel.Size = new Size(500, 106);
+            GameStatusLabel.TabIndex = 4;
+            GameStatusLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
             // 
@@ -61,7 +72,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20.2959824F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(800, 450);
-            tableLayoutPanel1.TabIndex = 1;
+            tableLayoutPanel1.TabIndex = 2;
             // 
             // tableLayoutPanel2
             // 
@@ -134,17 +145,6 @@
             SendButton.UseVisualStyleBackColor = true;
             SendButton.Click += SendButton_Click;
             // 
-            // GameStatusLabel
-            // 
-            GameStatusLabel.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(GameStatusLabel, 2);
-            GameStatusLabel.Dock = DockStyle.Fill;
-            GameStatusLabel.Location = new Point(3, 0);
-            GameStatusLabel.Name = "GameStatusLabel";
-            GameStatusLabel.Size = new Size(500, 106);
-            GameStatusLabel.TabIndex = 4;
-            GameStatusLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // GameBoardPanel
             // 
             GameBoardPanel.ColumnCount = 5;
@@ -167,14 +167,14 @@
             GameBoardPanel.Size = new Size(500, 338);
             GameBoardPanel.TabIndex = 3;
             // 
-            // ServerGameWindow
+            // GameWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(tableLayoutPanel1);
-            Name = "ServerGameWindow";
-            Text = "Seega - Server";
+            Name = "GameWindow";
+            Text = "Seega";
             Load += ServerGameWindow_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
@@ -187,6 +187,7 @@
 
         #endregion
 
+        private Label GameStatusLabel;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label1;
@@ -195,6 +196,5 @@
         private RichTextBox ChatTextbox;
         private Button SendButton;
         private TableLayoutPanel GameBoardPanel;
-        private Label GameStatusLabel;
     }
 }

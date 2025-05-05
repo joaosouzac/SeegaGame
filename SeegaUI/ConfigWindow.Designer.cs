@@ -1,6 +1,6 @@
 ﻿namespace SeegaUI
 {
-    partial class HostConfigWindow
+    partial class ConfigWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tableLayoutPanel1 = new TableLayoutPanel();
             titleLabel = new Label();
+            tableLayoutPanel1 = new TableLayoutPanel();
             flowLayoutPanel1 = new FlowLayoutPanel();
             nameLabel = new Label();
             nameTextBox = new TextBox();
@@ -39,12 +39,24 @@
             flowLayoutPanel3 = new FlowLayoutPanel();
             portLabel = new Label();
             portTextBox = new TextBox();
-            hostButton = new Button();
+            connectButton = new Button();
             tableLayoutPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             flowLayoutPanel3.SuspendLayout();
             SuspendLayout();
+            // 
+            // titleLabel
+            // 
+            titleLabel.AutoSize = true;
+            titleLabel.Dock = DockStyle.Fill;
+            titleLabel.Font = new Font("Segoe UI", 22F);
+            titleLabel.Location = new Point(11, 0);
+            titleLabel.Name = "titleLabel";
+            titleLabel.Size = new Size(309, 80);
+            titleLabel.TabIndex = 0;
+            titleLabel.Text = "Network Config";
+            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
             // 
@@ -56,7 +68,7 @@
             tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 1, 1);
             tableLayoutPanel1.Controls.Add(flowLayoutPanel2, 1, 2);
             tableLayoutPanel1.Controls.Add(flowLayoutPanel3, 1, 3);
-            tableLayoutPanel1.Controls.Add(hostButton, 1, 4);
+            tableLayoutPanel1.Controls.Add(connectButton, 1, 4);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -67,19 +79,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel1.Size = new Size(332, 403);
-            tableLayoutPanel1.TabIndex = 0;
-            // 
-            // titleLabel
-            // 
-            titleLabel.AutoSize = true;
-            titleLabel.Dock = DockStyle.Fill;
-            titleLabel.Font = new Font("Segoe UI", 22F);
-            titleLabel.Location = new Point(11, 0);
-            titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(309, 80);
-            titleLabel.TabIndex = 0;
-            titleLabel.Text = "Host Options";
-            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            tableLayoutPanel1.TabIndex = 1;
             // 
             // flowLayoutPanel1
             // 
@@ -165,24 +165,24 @@
             portTextBox.Size = new Size(294, 27);
             portTextBox.TabIndex = 1;
             // 
-            // hostButton
+            // connectButton
             // 
-            hostButton.Dock = DockStyle.Top;
-            hostButton.Location = new Point(11, 323);
-            hostButton.Name = "hostButton";
-            hostButton.Size = new Size(309, 29);
-            hostButton.TabIndex = 4;
-            hostButton.Text = "Host";
-            hostButton.UseVisualStyleBackColor = true;
-            hostButton.Click += hostButton_Click;
+            connectButton.Dock = DockStyle.Top;
+            connectButton.Location = new Point(11, 323);
+            connectButton.Name = "connectButton";
+            connectButton.Size = new Size(309, 29);
+            connectButton.TabIndex = 4;
+            connectButton.Text = "Placeholder";
+            connectButton.UseVisualStyleBackColor = true;
+            connectButton.Click += connectButton_Click;
             // 
-            // HostConfigWindow
+            // ConfigWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(332, 403);
             Controls.Add(tableLayoutPanel1);
-            Name = "HostConfigWindow";
+            Name = "ConfigWindow";
             Text = "Seega";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
@@ -197,8 +197,8 @@
 
         #endregion
 
-        private TableLayoutPanel tableLayoutPanel1;
         private Label titleLabel;
+        private TableLayoutPanel tableLayoutPanel1;
         private FlowLayoutPanel flowLayoutPanel1;
         private Label nameLabel;
         private TextBox nameTextBox;
@@ -208,6 +208,6 @@
         private FlowLayoutPanel flowLayoutPanel3;
         private Label portLabel;
         private TextBox portTextBox;
-        private Button hostButton;
+        private Button connectButton;
     }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SeegaUI.GameWindow;
+using SeegaUI;
 using SeegaLogic;
 using Sockets;
 
@@ -52,7 +52,7 @@ namespace SeegaUI
 
         private void ShowHostConfigWindow()
         {
-            HostConfigWindow hostConfigWindow = new HostConfigWindow();
+            ConfigWindow hostConfigWindow = new ConfigWindow(true);
 
             hostConfigWindow.HostGame += (s, args) =>
             {
@@ -70,7 +70,7 @@ namespace SeegaUI
 
         private void ShowClientConfigWindow()
         {
-            ClientConfigWindow clientConfigWindow = new ClientConfigWindow();
+            ConfigWindow clientConfigWindow = new ConfigWindow(false);
 
             clientConfigWindow.JoinGame += (s, args) =>
             {
@@ -87,7 +87,7 @@ namespace SeegaUI
 
         private void ShowServerGameWindow(Server host)
         {
-            ServerGameWindow serverGameWindow = new ServerGameWindow(host);
+            GameWindow serverGameWindow = new GameWindow(host, 1);
 
             serverGameWindow.FormClosed += (s, args) => this.Close();
             serverGameWindow.Show();
@@ -95,7 +95,7 @@ namespace SeegaUI
 
         private void ShowClientGameWindow(Client client)
         {
-            ClientGameWindow clientGameWindow = new ClientGameWindow(client);
+            GameWindow clientGameWindow = new GameWindow(client, 2);
 
             clientGameWindow.FormClosed += (s, args) => this.Close();
             clientGameWindow.Show();

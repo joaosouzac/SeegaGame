@@ -6,17 +6,11 @@ using System.Threading;
 
 namespace Sockets
 {
-    public class Client
+    public class Client : TCPConnection
     {
-        private IPAddress ip;
-        private int port;
-
         private TcpClient client;
-        private NetworkStream stream;
 
         private Thread receiveThread;
-
-        public event Action<string> MessageReceived;
 
         public Client(IPAddress ip, int port)
         {
@@ -33,38 +27,6 @@ namespace Sockets
             this.receiveThread = new Thread(this.ReceiveData);
             this.receiveThread.IsBackground = true;
             this.receiveThread.Start();
-        }
-
-        public void SendMessage(string message)
-        {
-            if (this.stream != null && this.stream.CanWrite)
-            {
-                byte[] data = Encoding.UTF8.GetBytes(message);
-
-                this.stream.Write(data, 0, data.Length);
-            }
-        }
-
-        private void ReceiveData()
-        {
-            byte[] buffer = new byte[1024];
-            try
-            {
-                while (true)
-                {
-                    int bytesRead = this.stream.Read(buffer, 0, buffer.Length);
-                    if (bytesRead > 0)
-                    {
-                        string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
-                        this.MessageReceived?.Invoke(message);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                // conexão encerrada
-            }
         }
     }
 }
