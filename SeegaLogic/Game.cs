@@ -44,7 +44,7 @@ namespace SeegaLogic
         // Holds the coordinates of the piece currently selected for movement (during Movement phase)
         private (int row, int column)? selectedPiece = null;
 
-        private int playerID;
+        public int playerID;
 
         public Game(int playerID)
         {

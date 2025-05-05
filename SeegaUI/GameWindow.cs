@@ -167,18 +167,23 @@ namespace SeegaUI
             Button btn = sender as Button;
             var (row, col) = ((int, int))btn.Tag;
 
-            if (this.game.Phase == GamePhase.Placement)
+            if (this.game.playerID == this.game.Turn)
             {
-                this.game.PlacePiece(row, col);
-            }
-            else
-            {
-                if (!this.game.SelectPiece(row, col))
-                    this.game.MoveSelectedPiece(row, col);
+                if (this.game.Phase == GamePhase.Placement)
+                {
+                    this.game.PlacePiece(row, col);
+                }
+                else
+                {
+                    if (!this.game.SelectPiece(row, col))
+                        this.game.MoveSelectedPiece(row, col);
+                }
+
+                this.handler.SendMove(row, col);
+                this.UpdateBoard();
+
             }
 
-            this.handler.SendMove(row, col);
-            this.UpdateBoard();
         }
 
         private void UpdateBoard()
