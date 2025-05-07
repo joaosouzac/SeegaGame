@@ -36,7 +36,7 @@ namespace SeegaUI
             this.Text = "Seega - Server";
 
             this.server.MessageReceived += handler.HandleMessage;
-            this.handler.ChatReceived += (msg) => AddMessage("Opponent: " + msg, Color.LightBlue);
+            this.handler.ChatReceived += (msg) => AddMessage("Opponent: " + msg, Color.Blue);
             this.handler.BoardUpdated += () => UpdateBoard();
 
             this.CreateBoard();
@@ -55,7 +55,7 @@ namespace SeegaUI
             this.Text = "Seega - Client";
 
             this.client.MessageReceived += handler.HandleMessage;
-            this.handler.ChatReceived += (msg) => AddMessage("Opponent: " + msg, Color.LightBlue);
+            this.handler.ChatReceived += (msg) => AddMessage("Opponent: " + msg, Color.Red);
             this.handler.BoardUpdated += () => UpdateBoard();
 
             this.CreateBoard();
@@ -80,7 +80,9 @@ namespace SeegaUI
             if (!string.IsNullOrEmpty(message))
             {
                 this.handler.SendChat(message);
-                AddSentMessage($"You: " + message);
+
+                this.AddMessage($"You: {message}", Color.Black);
+
                 this.ChatTextbox.Clear();
             }
         }
@@ -111,20 +113,22 @@ namespace SeegaUI
 
         private void SurrenderLabel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"{this.game.player.Name} surrended!", "Surrender");
+            string surrendText = $"{this.game.player.Name} has left the game!";
+
+            this.handler.SendChat(surrendText);
+
+            this.AddMessage($"{surrendText}", Color.Green);
+
+            MessageBox.Show($"You has surrended!", "You lost!");
+
             this.Close();
         }
 
-        private void AddSentMessage(string text)
-        {
-            AddMessage(text, Color.LightGray);
-        }
-
-        private void AddMessage(string text, Color backgroundColor)
+        private void AddMessage(string text, Color textColor)
         {
             if (this.ChatPanel.InvokeRequired)
             {
-                this.ChatPanel.Invoke(new Action(() => AddMessage(text, backgroundColor)));
+                this.ChatPanel.Invoke(new Action(() => AddMessage(text, textColor)));
             }
             else
             {
@@ -133,7 +137,7 @@ namespace SeegaUI
                 lbl.Text = text;
                 lbl.AutoSize = true;
                 lbl.MaximumSize = new Size(this.ChatPanel.Width - 20, 0);
-                lbl.BackColor = backgroundColor;
+                lbl.ForeColor = textColor;
                 lbl.Padding = new Padding(5);
 
                 this.ChatPanel.Controls.Add(lbl);

@@ -38,7 +38,7 @@
             GameBoardPanel = new TableLayoutPanel();
             tableLayoutPanel3 = new TableLayoutPanel();
             PlayerLabel = new Label();
-            SurrenderLabel = new Label();
+            SurrenderLabel = new LinkLabel();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
@@ -194,15 +194,15 @@
             // 
             SurrenderLabel.AutoSize = true;
             SurrenderLabel.Dock = DockStyle.Fill;
-            SurrenderLabel.Font = new Font("Segoe UI", 9F, FontStyle.Underline);
-            SurrenderLabel.ForeColor = Color.Red;
+            SurrenderLabel.LinkColor = Color.Red;
             SurrenderLabel.Location = new Point(3, 61);
             SurrenderLabel.Name = "SurrenderLabel";
-            SurrenderLabel.Padding = new Padding(0, 0, 5, 5);
             SurrenderLabel.Size = new Size(494, 39);
             SurrenderLabel.TabIndex = 1;
+            SurrenderLabel.TabStop = true;
             SurrenderLabel.Text = "Surrender";
-            SurrenderLabel.TextAlign = ContentAlignment.BottomRight;
+            SurrenderLabel.TextAlign = ContentAlignment.MiddleRight;
+            SurrenderLabel.VisitedLinkColor = Color.FromArgb(192, 0, 0);
             SurrenderLabel.Click += SurrenderLabel_Click;
             // 
             // GameWindow
@@ -235,6 +235,6 @@
         private TableLayoutPanel GameBoardPanel;
         private TableLayoutPanel tableLayoutPanel3;
         private Label PlayerLabel;
-        private Label SurrenderLabel;
+        private LinkLabel SurrenderLabel;
     }
 }
