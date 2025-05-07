@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            GameStatusLabel = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             label1 = new Label();
@@ -37,21 +36,14 @@
             ChatTextbox = new RichTextBox();
             SendButton = new Button();
             GameBoardPanel = new TableLayoutPanel();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            PlayerLabel = new Label();
+            SurrenderLabel = new Label();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
             SuspendLayout();
-            // 
-            // GameStatusLabel
-            // 
-            GameStatusLabel.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(GameStatusLabel, 2);
-            GameStatusLabel.Dock = DockStyle.Fill;
-            GameStatusLabel.Location = new Point(3, 0);
-            GameStatusLabel.Name = "GameStatusLabel";
-            GameStatusLabel.Size = new Size(500, 106);
-            GameStatusLabel.TabIndex = 4;
-            GameStatusLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
             // 
@@ -61,8 +53,8 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36.75F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 2, 0);
-            tableLayoutPanel1.Controls.Add(GameStatusLabel, 0, 0);
             tableLayoutPanel1.Controls.Add(GameBoardPanel, 0, 1);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -137,6 +129,7 @@
             // SendButton
             // 
             SendButton.AutoSize = true;
+            SendButton.Font = new Font("Segoe UI", 9F);
             SendButton.Location = new Point(188, 3);
             SendButton.Name = "SendButton";
             SendButton.Size = new Size(94, 30);
@@ -147,6 +140,7 @@
             // 
             // GameBoardPanel
             // 
+            GameBoardPanel.BackColor = SystemColors.Control;
             GameBoardPanel.ColumnCount = 5;
             tableLayoutPanel1.SetColumnSpan(GameBoardPanel, 2);
             GameBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
@@ -155,7 +149,8 @@
             GameBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             GameBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             GameBoardPanel.Dock = DockStyle.Fill;
-            GameBoardPanel.Location = new Point(3, 109);
+            GameBoardPanel.Location = new Point(50, 116);
+            GameBoardPanel.Margin = new Padding(50, 10, 50, 10);
             GameBoardPanel.Name = "GameBoardPanel";
             GameBoardPanel.RowCount = 5;
             tableLayoutPanel1.SetRowSpan(GameBoardPanel, 2);
@@ -164,8 +159,51 @@
             GameBoardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             GameBoardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             GameBoardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            GameBoardPanel.Size = new Size(500, 338);
+            GameBoardPanel.Size = new Size(406, 324);
             GameBoardPanel.TabIndex = 3;
+            // 
+            // tableLayoutPanel3
+            // 
+            tableLayoutPanel3.ColumnCount = 1;
+            tableLayoutPanel1.SetColumnSpan(tableLayoutPanel3, 2);
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel3.Controls.Add(PlayerLabel, 0, 0);
+            tableLayoutPanel3.Controls.Add(SurrenderLabel, 0, 1);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(3, 3);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 2;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 61F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 39F));
+            tableLayoutPanel3.Size = new Size(500, 100);
+            tableLayoutPanel3.TabIndex = 4;
+            // 
+            // PlayerLabel
+            // 
+            PlayerLabel.AutoSize = true;
+            PlayerLabel.Dock = DockStyle.Fill;
+            PlayerLabel.Font = new Font("Segoe UI", 14F);
+            PlayerLabel.Location = new Point(3, 0);
+            PlayerLabel.Name = "PlayerLabel";
+            PlayerLabel.Size = new Size(494, 61);
+            PlayerLabel.TabIndex = 0;
+            PlayerLabel.Text = "Current Player";
+            PlayerLabel.TextAlign = ContentAlignment.BottomCenter;
+            // 
+            // SurrenderLabel
+            // 
+            SurrenderLabel.AutoSize = true;
+            SurrenderLabel.Dock = DockStyle.Fill;
+            SurrenderLabel.Font = new Font("Segoe UI", 9F, FontStyle.Underline);
+            SurrenderLabel.ForeColor = Color.Red;
+            SurrenderLabel.Location = new Point(3, 61);
+            SurrenderLabel.Name = "SurrenderLabel";
+            SurrenderLabel.Padding = new Padding(0, 0, 5, 5);
+            SurrenderLabel.Size = new Size(494, 39);
+            SurrenderLabel.TabIndex = 1;
+            SurrenderLabel.Text = "Surrender";
+            SurrenderLabel.TextAlign = ContentAlignment.BottomRight;
+            SurrenderLabel.Click += SurrenderLabel_Click;
             // 
             // GameWindow
             // 
@@ -177,17 +215,16 @@
             Text = "Seega";
             Load += ServerGameWindow_Load;
             tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
             flowLayoutPanel2.PerformLayout();
+            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel3.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Label GameStatusLabel;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label1;
@@ -196,5 +233,8 @@
         private RichTextBox ChatTextbox;
         private Button SendButton;
         private TableLayoutPanel GameBoardPanel;
+        private TableLayoutPanel tableLayoutPanel3;
+        private Label PlayerLabel;
+        private Label SurrenderLabel;
     }
 }

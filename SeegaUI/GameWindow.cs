@@ -23,13 +23,13 @@ namespace SeegaUI
         private Game game;
         private Button[,] buttons = new Button[5, 5];
 
-        public GameWindow(Server server, int playerID)
+        public GameWindow(Server server, Player player)
         {
             InitializeComponent();
 
             this.server = server;
 
-            this.game = new Game(playerID);
+            this.game = new Game(player);
 
             this.handler = new MessageHandler(this.game, this.server);
 
@@ -41,14 +41,14 @@ namespace SeegaUI
 
             this.CreateBoard();
         }
-        
-        public GameWindow(Client client, int playerID)
+
+        public GameWindow(Client client, Player player)
         {
             InitializeComponent();
 
             this.client = client;
 
-            this.game = new Game(playerID);
+            this.game = new Game(player);
 
             this.handler = new MessageHandler(this.game, this.client);
 
@@ -80,31 +80,18 @@ namespace SeegaUI
             if (!string.IsNullOrEmpty(message))
             {
                 this.handler.SendChat(message);
-                AddSentMessage("You: " + message);
+                AddSentMessage($"You: " + message);
                 this.ChatTextbox.Clear();
             }
         }
 
-        private void AddSentMessage(string text)
+        private void BoardButton_Click(object sender, EventArgs e)
         {
-            AddMessage(text, Color.LightGray);
-        }
+            Button btn = sender as Button;
+            var (row, col) = ((int, int))btn.Tag;
 
-        private void AddReceivedMessage(string text)
-        {
-            if (text.StartsWith("CHAT:"))
+            if (this.game.player.ID == this.game.Turn)
             {
-                string chatText = text.Substring(5); // remove prefixo
-
-                AddMessage("Opponent: " + chatText, Color.LightBlue);
-            }
-            else if (text.StartsWith("MOVE:"))
-            {
-                string[] parts = text.Substring(5).Split(',');
-
-                int row = int.Parse(parts[0]);
-                int col = int.Parse(parts[1]);
-
                 if (this.game.Phase == GamePhase.Placement)
                 {
                     this.game.PlacePiece(row, col);
@@ -115,8 +102,22 @@ namespace SeegaUI
                         this.game.MoveSelectedPiece(row, col);
                 }
 
+                this.handler.SendMove(row, col);
                 this.UpdateBoard();
+
             }
+
+        }
+
+        private void SurrenderLabel_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"{this.game.player.Name} surrended!", "Surrender");
+            this.Close();
+        }
+
+        private void AddSentMessage(string text)
+        {
+            AddMessage(text, Color.LightGray);
         }
 
         private void AddMessage(string text, Color backgroundColor)
@@ -162,30 +163,6 @@ namespace SeegaUI
             this.UpdateBoard();
         }
 
-        private void BoardButton_Click(object sender, EventArgs e)
-        {
-            Button btn = sender as Button;
-            var (row, col) = ((int, int))btn.Tag;
-
-            if (this.game.playerID == this.game.Turn)
-            {
-                if (this.game.Phase == GamePhase.Placement)
-                {
-                    this.game.PlacePiece(row, col);
-                }
-                else
-                {
-                    if (!this.game.SelectPiece(row, col))
-                        this.game.MoveSelectedPiece(row, col);
-                }
-
-                this.handler.SendMove(row, col);
-                this.UpdateBoard();
-
-            }
-
-        }
-
         private void UpdateBoard()
         {
             for (int i = 0; i < 5; i++)
@@ -213,7 +190,17 @@ namespace SeegaUI
                 }
             }
 
-            this.GameStatusLabel.Text = $"Servidor - Turno: Jogador {this.game.Turn} - Fase: {this.game.Phase}";
+            if (this.game.player.ID == this.game.Turn)
+            {
+                this.PlayerLabel.Text = "You Turn!";
+            }
+            else
+            {
+                this.PlayerLabel.Text = "Opponent's Turn";
+            }
+
         }
+
+        
     }
 }

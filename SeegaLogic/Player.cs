@@ -9,11 +9,13 @@ namespace SeegaLogic
 {
     public class Player
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public Color Color { get; set; }
 
-        public Player(string name, Color color)
+        public Player(int ID, string name, Color color)
         {
+            this.ID = ID;
             this.Name = name;
             this.Color = color;
         }

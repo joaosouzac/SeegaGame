@@ -8,10 +8,12 @@ namespace SeegaUI.Args
     {
         //public Player Player { get; set; }
         public Server Host { get; set; }
+        public Player Player { get; set; }
 
-        public ServerEventArgs(Server host)
+        public ServerEventArgs(Server host, Player player)
         {
             this.Host = host;
+            this.Player = player;
         }
     }
 }

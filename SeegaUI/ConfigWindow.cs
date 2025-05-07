@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SeegaLogic;
 using SeegaUI.Args;
 using Sockets;
 
@@ -52,7 +53,9 @@ namespace SeegaUI
                 // DEBUG - SERVIDOR LOCAL PRÉ-CONFIGURADO
                 Server host = new Server(IPAddress.Loopback, 12345);
 
-                ServerEventArgs connectionOptions = new ServerEventArgs(host);
+                Player player = new Player(1, "Host", Color.Red);
+
+                ServerEventArgs connectionOptions = new ServerEventArgs(host, player);
 
                 HostGame?.Invoke(this, connectionOptions);
 
@@ -71,7 +74,9 @@ namespace SeegaUI
                 // DEBUG - CLIENTE LOCAL PRÉ-CONFIGURADO
                 Client client = new Client(IPAddress.Loopback, 12345);
 
-                ClientEventArgs connectionOptions = new ClientEventArgs(client);
+                Player player = new Player(2, "Guest", Color.Blue);
+
+                ClientEventArgs connectionOptions = new ClientEventArgs(client, player);
 
                 JoinGame?.Invoke(this, connectionOptions);
             }

@@ -60,7 +60,7 @@ namespace SeegaUI
                 
                 hostConfigWindow.Hide();
 
-                ShowServerGameWindow(args.Host);
+                ShowServerGameWindow(args.Host, args.Player);
 
             };
 
@@ -78,24 +78,24 @@ namespace SeegaUI
 
                 clientConfigWindow.Hide();
 
-                ShowClientGameWindow(args.Client);
+                ShowClientGameWindow(args.Client, args.Player);
             };
 
             clientConfigWindow.FormClosed += (s, args) => this.Close();
             clientConfigWindow.Show();
         }
 
-        private void ShowServerGameWindow(Server host)
+        private void ShowServerGameWindow(Server host, Player player)
         {
-            GameWindow serverGameWindow = new GameWindow(host, 1);
+            GameWindow serverGameWindow = new GameWindow(host, player);
 
             serverGameWindow.FormClosed += (s, args) => this.Close();
             serverGameWindow.Show();
         }
 
-        private void ShowClientGameWindow(Client client)
+        private void ShowClientGameWindow(Client client, Player player)
         {
-            GameWindow clientGameWindow = new GameWindow(client, 2);
+            GameWindow clientGameWindow = new GameWindow(client, player);
 
             clientGameWindow.FormClosed += (s, args) => this.Close();
             clientGameWindow.Show();

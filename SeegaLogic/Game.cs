@@ -24,6 +24,8 @@ namespace SeegaLogic
     // Contains all the game's logic - control of turns, player's actions, board management.
     public class Game
     {
+        public Player player;
+
         // Create a logical 5x5 board where every cell is occupied by P1, P2 or is Empty.
         public Cellstate[,] Board { get; set; } = new Cellstate[5, 5];
 
@@ -44,11 +46,9 @@ namespace SeegaLogic
         // Holds the coordinates of the piece currently selected for movement (during Movement phase)
         private (int row, int column)? selectedPiece = null;
 
-        public int playerID;
-
-        public Game(int playerID)
+        public Game(Player player)
         {
-            this.playerID = playerID;
+            this.player = player;
         }
 
         // Places a piece on the board during the Placement Phase
