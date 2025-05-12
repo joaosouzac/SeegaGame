@@ -46,6 +46,8 @@ namespace SeegaLogic
         // Holds the coordinates of the piece currently selected for movement (during Movement phase)
         private (int row, int column)? selectedPiece = null;
 
+        // Indicates if the game has finished
+        // It can be caused by either victory or forfeit
         public bool isFinished = false;
 
         public Game(Player player)
@@ -137,6 +139,7 @@ namespace SeegaLogic
             // Checks if there is a capture
             CheckCapture(newRow, newColumn);
 
+            // Checks if there is a victory
             if (CheckVictory())
             {
                 return true;
@@ -182,6 +185,8 @@ namespace SeegaLogic
             }
         }
 
+        // Counts and return the current number of selected player's pieces on the board 
+        // The player is selected through owner
         private int CountPieces(Cellstate owner)
         {
             int numberOfPlayerPieces = 0;
@@ -197,10 +202,13 @@ namespace SeegaLogic
             return numberOfPlayerPieces;
         }
 
+        // Checks for current player's victory
         public bool CheckVictory()
         {
+            // Defines who is the current player's opponent
             Cellstate enemy = (this.player.ID == 1) ? Cellstate.Player2 : Cellstate.Player1;
 
+            // If the opponent holds no more pieces, the current player wins
             if (CountPieces(enemy) == 0)
             {
                 this.isFinished = true;

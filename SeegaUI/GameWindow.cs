@@ -13,16 +13,23 @@ using Sockets;
 
 namespace SeegaUI
 {
+    // The main game window for both Host (Server) and Client players
+    // Handles board rendering, game interaction, chat, surrendering, and win/loss
     public partial class GameWindow : Form
     {
-        private Server? server;
-        private Client? client;
+        private Server? server;     // Reference to the Server object if host
+        private Client? client;     // Reference to the Client object if client
 
+        // Handles communication and message logic
         private MessageHandler handler;
 
+        // Game logic (turns, board, phase, etc.)
         private Game game;
+
+        // Holds the button grid for the 5x5 board UI
         private Button[,] buttons = new Button[5, 5];
 
+        // Constructor for the Host
         public GameWindow(Server server, Player player)
         {
             InitializeComponent();
@@ -33,18 +40,23 @@ namespace SeegaUI
 
             this.handler = new MessageHandler(this.game, this.server);
 
+            // Change window's title
             this.Text = "Seega - Server";
 
+            // Register message handlers
             this.server.MessageReceived += handler.HandleMessage;
+
             this.handler.ChatReceived += (sender, message) => AddMessage($"{sender}: {message}", Color.Blue);
             this.handler.BoardUpdated += () => UpdateBoard();
 
             this.handler.OpponentWon += (sender) => HandleDefeat(sender);
             this.handler.OpponentForfeit += (sender) => HandleForfeit(sender);
 
+            // Creates the board in the UI
             this.CreateBoard();
         }
 
+        // Constructor for the Client
         public GameWindow(Client client, Player player)
         {
             InitializeComponent();
@@ -55,8 +67,10 @@ namespace SeegaUI
 
             this.handler = new MessageHandler(this.game, this.client);
 
+            // Change window's title
             this.Text = "Seega - Client";
 
+            // Register message handlers
             this.client.MessageReceived += handler.HandleMessage;
 
             this.handler.ChatReceived += (sender, message) => AddMessage($"{sender}: {message}", Color.Brown);
@@ -65,21 +79,26 @@ namespace SeegaUI
             this.handler.OpponentWon += (sender) => HandleDefeat(sender);
             this.handler.OpponentForfeit += (sender) => HandleForfeit(sender);
 
+            // Creates the board in the UI
             this.CreateBoard();
         }
 
+        // Called when the GameWindow loads
         private void ServerGameWindow_Load(object sender, EventArgs e)
         {
             if (this.handler.isServer)
             {
+                // Start listening as server
                 this.server.Start();
             }
             else if (!this.handler.isServer)
             {
+                // Connect to a server as client
                 this.client.Connect();
             }
         }
 
+        // Sends a chat message if the text is not empty
         private void SendMessage(string message)
         {
             if (!string.IsNullOrEmpty(message))
@@ -92,6 +111,7 @@ namespace SeegaUI
             }
         }
 
+        // Handles win for the local player
         private void HandleVictory()
         {
             this.game.isFinished = true;
@@ -103,6 +123,7 @@ namespace SeegaUI
             this.UpdateBoard();
         }
 
+        // Handles defeat by opponent
         private void HandleDefeat(string sender)
         {
             this.game.isFinished = true;
@@ -115,7 +136,8 @@ namespace SeegaUI
 
             //this.Close();
         }
-        
+
+        // Handles forfeit from the opponent (you win)
         private void HandleForfeit(string sender)
         {
             this.game.isFinished= true;
@@ -131,6 +153,7 @@ namespace SeegaUI
             //this.Close();
         }
 
+        // Triggered when the Send button is clicked
         private void SendButton_Click(object sender, EventArgs e)
         {
             string message = this.ChatTextbox.Text.Trim();
@@ -138,6 +161,7 @@ namespace SeegaUI
             this.SendMessage(message);
         }
 
+        // Triggered when the user presses Enter in the chat textbox
         private void ChatTextbox_KeyDown(object sender, KeyEventArgs e)
         {
             string message = this.ChatTextbox.Text.Trim();
@@ -148,6 +172,7 @@ namespace SeegaUI
             }
         }
 
+        // Handles the board click: selects or moves a piece, or places a piece
         private void BoardButton_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
@@ -178,6 +203,7 @@ namespace SeegaUI
 
         }
 
+        // Handles the surrender button click — forfeit the match
         private void SurrenderLabel_Click(object sender, EventArgs e)
         {
             this.game.isFinished = true;
@@ -189,10 +215,9 @@ namespace SeegaUI
             MessageBox.Show($"Too bad!\n You forfeit the match!", "You forfeit!");
 
             this.UpdateBoard();
-
-            //this.Close();
         }
 
+        // Adds a message to the chat panel with a specific color
         private void AddMessage(string text, Color textColor)
         {
             if (this.ChatPanel.InvokeRequired)
@@ -213,6 +238,7 @@ namespace SeegaUI
             }
         }
 
+        // Builds the 5x5 board grid using Button controls and assigns click handlers
         private void CreateBoard()
         {
             GameBoardPanel.Controls.Clear();
@@ -236,6 +262,7 @@ namespace SeegaUI
             this.UpdateBoard();
         }
 
+        // Updates the visual board to reflect the current game state
         private void UpdateBoard()
         {
             for (int i = 0; i < 5; i++)
@@ -262,6 +289,7 @@ namespace SeegaUI
                             break;
                     }
 
+                    // Disable movement and forfeit if the game is finished
                     if (this.game.isFinished)
                     {
                         btn.Enabled = false;
@@ -270,6 +298,7 @@ namespace SeegaUI
                 }
             }
 
+            // Update turn indicator
             if (this.game.player.ID == this.game.Turn)
             {
                 this.PlayerLabel.Text = "You Turn!";
