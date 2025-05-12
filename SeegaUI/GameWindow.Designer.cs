@@ -47,7 +47,7 @@
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.BackColor = Color.BurlyWood;
+            tableLayoutPanel1.BackColor = Color.Bisque;
             tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.25F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
@@ -125,6 +125,7 @@
             ChatTextbox.Size = new Size(179, 33);
             ChatTextbox.TabIndex = 0;
             ChatTextbox.Text = "";
+            ChatTextbox.KeyDown += ChatTextbox_KeyDown;
             // 
             // SendButton
             // 
@@ -132,7 +133,7 @@
             SendButton.Font = new Font("Segoe UI", 9F);
             SendButton.Location = new Point(188, 3);
             SendButton.Name = "SendButton";
-            SendButton.Size = new Size(94, 30);
+            SendButton.Size = new Size(94, 32);
             SendButton.TabIndex = 1;
             SendButton.Text = "Send";
             SendButton.UseVisualStyleBackColor = true;

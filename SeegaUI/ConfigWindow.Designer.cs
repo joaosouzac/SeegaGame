@@ -98,9 +98,9 @@
             nameLabel.AutoSize = true;
             nameLabel.Location = new Point(3, 0);
             nameLabel.Name = "nameLabel";
-            nameLabel.Size = new Size(102, 20);
+            nameLabel.Size = new Size(75, 20);
             nameLabel.TabIndex = 0;
-            nameLabel.Text = "Player's Name";
+            nameLabel.Text = "Nickname";
             // 
             // nameTextBox
             // 

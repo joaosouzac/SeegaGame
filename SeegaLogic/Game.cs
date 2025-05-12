@@ -46,6 +46,8 @@ namespace SeegaLogic
         // Holds the coordinates of the piece currently selected for movement (during Movement phase)
         private (int row, int column)? selectedPiece = null;
 
+        public bool isFinished = false;
+
         public Game(Player player)
         {
             this.player = player;
@@ -135,11 +137,16 @@ namespace SeegaLogic
             // Checks if there is a capture
             CheckCapture(newRow, newColumn);
 
+            if (CheckVictory())
+            {
+                return true;
+            }
+
             // End turn and clear selected piece
             Turn = (Turn == 1) ? 2 : 1;
             selectedPiece = null;
 
-            return true;
+            return false;
         }
 
         // Checks for and performs captures in the four cardinal directions
@@ -168,9 +175,41 @@ namespace SeegaLogic
                     // Checks if an enemy piece is sandwiched between two of the current player's pieces
                     if (Board[nr, nc] == enemy && Board[fr, fc] == self)
                     {
-                        Board[nr, nc] = Cellstate.Empty; // captura
+                        Board[nr, nc] = Cellstate.Empty; // Piece is captured
+
                     }
                 }
+            }
+        }
+
+        private int CountPieces(Cellstate owner)
+        {
+            int numberOfPlayerPieces = 0;
+
+            foreach (var piece in Board)
+            {
+                if (piece == owner)
+                {
+                    numberOfPlayerPieces++;
+                }
+            }
+
+            return numberOfPlayerPieces;
+        }
+
+        public bool CheckVictory()
+        {
+            Cellstate enemy = (this.player.ID == 1) ? Cellstate.Player2 : Cellstate.Player1;
+
+            if (CountPieces(enemy) == 0)
+            {
+                this.isFinished = true;
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

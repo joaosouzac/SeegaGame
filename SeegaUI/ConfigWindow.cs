@@ -43,14 +43,21 @@ namespace SeegaUI
             {
                 // CÓDIGO DE PRODUÇÃO - USAR NO PROJETO FINAL
 
-                /*
+                
                 Server host = new Server(
                     IPAddress.Parse(ipAddressTextBox.Text),
                     int.Parse(portTextBox.Text)
                     );
-                */
+
+                Player player = new Player(1, nameTextBox.Text, Color.Red);
+
+                ServerEventArgs connectionOptions = new ServerEventArgs(host, player);
+
+                HostGame?.Invoke(this, connectionOptions);
+
 
                 // DEBUG - SERVIDOR LOCAL PRÉ-CONFIGURADO
+                /*
                 Server host = new Server(IPAddress.Loopback, 12345);
 
                 Player player = new Player(1, "Host", Color.Red);
@@ -58,20 +65,28 @@ namespace SeegaUI
                 ServerEventArgs connectionOptions = new ServerEventArgs(host, player);
 
                 HostGame?.Invoke(this, connectionOptions);
+                */
 
             }
             else if (!isServer)
             {
                 // CÓDIGO DE PRODUÇÃO - USAR NO PROJETO FINAL
 
-                /*
+                
                 Client client = new Client(
                     IPAddress.Parse(ipAddressTextBox.Text),
                     int.Parse(portTextBox.Text)
                     );
-                */
+
+                Player player = new Player(2, nameTextBox.Text, Color.Blue);
+
+                ClientEventArgs connectionOptions = new ClientEventArgs(client, player);
+
+                JoinGame?.Invoke(this, connectionOptions);
+
 
                 // DEBUG - CLIENTE LOCAL PRÉ-CONFIGURADO
+                /*
                 Client client = new Client(IPAddress.Loopback, 12345);
 
                 Player player = new Player(2, "Guest", Color.Blue);
@@ -79,6 +94,7 @@ namespace SeegaUI
                 ClientEventArgs connectionOptions = new ClientEventArgs(client, player);
 
                 JoinGame?.Invoke(this, connectionOptions);
+                */
             }
         }
     }

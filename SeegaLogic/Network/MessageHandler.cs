@@ -18,7 +18,9 @@ namespace SeegaLogic.Network
         private Server? server;
         private Client? client;
 
-        public event Action<string> ChatReceived;
+        public event Action<string, string> ChatReceived;
+        public event Action<string> OpponentWon;
+        public event Action<string> OpponentForfeit;
         public event Action BoardUpdated;
 
         public MessageHandler(Game game, Server server)
@@ -98,7 +100,7 @@ namespace SeegaLogic.Network
 
             if (message.Type == "chat")
             {
-                ChatReceived?.Invoke(message.Chat);
+                ChatReceived?.Invoke(message.Sender, message.Chat);
             }
             else if (message.Type == "move")
             {
@@ -117,13 +119,26 @@ namespace SeegaLogic.Network
 
                 this.BoardUpdated?.Invoke();
             }
+            else if (message.Type == "victory")
+            {
+                this.game.isFinished = true;
+
+                OpponentWon?.Invoke(message.Sender);
+            }
+            else if (message.Type == "forfeit")
+            {
+                this.game.isFinished = true;
+
+                OpponentForfeit?.Invoke(message.Sender);
+            }
         }
 
-        public void SendChat(string text)
+        public void SendChat(string sender, string text)
         {
             MessageType message = new MessageType
             {
                 Type = "chat",
+                Sender = sender,
                 Chat = text
             };
 
@@ -140,6 +155,34 @@ namespace SeegaLogic.Network
                 Type = "move",
                 Row = row,
                 Col = col
+            };
+
+            if (this.isServer)
+            { this.server.SendMessage(message); }
+            else if (!this.isServer)
+            { this.client.SendMessage(message); }
+        }
+        
+        public void SendVictory(string sender)
+        {
+            MessageType message = new MessageType
+            {
+                Type = "victory",
+                Sender = sender
+            };
+
+            if (this.isServer)
+            { this.server.SendMessage(message); }
+            else if (!this.isServer)
+            { this.client.SendMessage(message); }
+        }
+        
+        public void SendForfeit(string sender)
+        {
+            MessageType message = new MessageType
+            {
+                Type = "forfeit",
+                Sender = sender
             };
 
             if (this.isServer)

@@ -36,8 +36,11 @@ namespace SeegaUI
             this.Text = "Seega - Server";
 
             this.server.MessageReceived += handler.HandleMessage;
-            this.handler.ChatReceived += (msg) => AddMessage("Opponent: " + msg, Color.Blue);
+            this.handler.ChatReceived += (sender, message) => AddMessage($"{sender}: {message}", Color.Blue);
             this.handler.BoardUpdated += () => UpdateBoard();
+
+            this.handler.OpponentWon += (sender) => HandleDefeat(sender);
+            this.handler.OpponentForfeit += (sender) => HandleForfeit(sender);
 
             this.CreateBoard();
         }
@@ -55,8 +58,12 @@ namespace SeegaUI
             this.Text = "Seega - Client";
 
             this.client.MessageReceived += handler.HandleMessage;
-            this.handler.ChatReceived += (msg) => AddMessage("Opponent: " + msg, Color.Red);
+
+            this.handler.ChatReceived += (sender, message) => AddMessage($"{sender}: {message}", Color.Brown);
             this.handler.BoardUpdated += () => UpdateBoard();
+
+            this.handler.OpponentWon += (sender) => HandleDefeat(sender);
+            this.handler.OpponentForfeit += (sender) => HandleForfeit(sender);
 
             this.CreateBoard();
         }
@@ -73,17 +80,71 @@ namespace SeegaUI
             }
         }
 
-        private void SendButton_Click(object sender, EventArgs e)
+        private void SendMessage(string message)
         {
-            string message = this.ChatTextbox.Text.Trim();
-
             if (!string.IsNullOrEmpty(message))
             {
-                this.handler.SendChat(message);
+                this.handler.SendChat(this.game.player.Name, message);
 
                 this.AddMessage($"You: {message}", Color.Black);
 
                 this.ChatTextbox.Clear();
+            }
+        }
+
+        private void HandleVictory()
+        {
+            this.game.isFinished = true;
+
+            this.AddMessage($"You won the game!", Color.Green);
+
+            MessageBox.Show($"Congratulations!\n You won the game!", "You won!");
+
+            this.UpdateBoard();
+        }
+
+        private void HandleDefeat(string sender)
+        {
+            this.game.isFinished = true;
+
+            this.AddMessage($"{sender} won the match!", Color.Red);
+
+            this.UpdateBoard();
+
+            //MessageBox.Show($"Too bad! You lost the match!", "You lost!");
+
+            //this.Close();
+        }
+        
+        private void HandleForfeit(string sender)
+        {
+            this.game.isFinished= true;
+
+            this.AddMessage($"{sender} forfeit the match!", Color.Red);
+
+            HandleVictory();
+
+            this.UpdateBoard();
+
+            //MessageBox.Show($"Too bad! You lost the match!", "You lost!");
+
+            //this.Close();
+        }
+
+        private void SendButton_Click(object sender, EventArgs e)
+        {
+            string message = this.ChatTextbox.Text.Trim();
+
+            this.SendMessage(message);
+        }
+
+        private void ChatTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            string message = this.ChatTextbox.Text.Trim();
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.SendMessage(message);
             }
         }
 
@@ -101,7 +162,13 @@ namespace SeegaUI
                 else
                 {
                     if (!this.game.SelectPiece(row, col))
-                        this.game.MoveSelectedPiece(row, col);
+                        if (this.game.MoveSelectedPiece(row, col))
+                        {
+                            this.handler.SendVictory(this.PlayerLabel.Name);
+
+                            HandleVictory();
+
+                        }
                 }
 
                 this.handler.SendMove(row, col);
@@ -113,15 +180,17 @@ namespace SeegaUI
 
         private void SurrenderLabel_Click(object sender, EventArgs e)
         {
-            string surrendText = $"{this.game.player.Name} has left the game!";
+            this.game.isFinished = true;
 
-            this.handler.SendChat(surrendText);
+            this.handler.SendForfeit(this.game.player.Name);
 
-            this.AddMessage($"{surrendText}", Color.Green);
+            this.AddMessage($"You forfeit the match!", Color.Red);
 
-            MessageBox.Show($"You has surrended!", "You lost!");
+            MessageBox.Show($"Too bad!\n You forfeit the match!", "You forfeit!");
 
-            this.Close();
+            this.UpdateBoard();
+
+            //this.Close();
         }
 
         private void AddMessage(string text, Color textColor)
@@ -176,6 +245,7 @@ namespace SeegaUI
                     var cell = game.Board[i, j];
                     var btn = buttons[i, j];
 
+
                     switch (cell)
                     {
                         case Cellstate.Empty:
@@ -191,6 +261,12 @@ namespace SeegaUI
                             btn.BackColor = Color.Blue;
                             break;
                     }
+
+                    if (this.game.isFinished)
+                    {
+                        btn.Enabled = false;
+                        this.SurrenderLabel.Enabled = false;
+                    }
                 }
             }
 
@@ -205,6 +281,5 @@ namespace SeegaUI
 
         }
 
-        
     }
 }
