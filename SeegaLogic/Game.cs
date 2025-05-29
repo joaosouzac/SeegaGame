@@ -46,6 +46,10 @@ namespace SeegaLogic
         // Holds the coordinates of the piece currently selected for movement (during Movement phase)
         private (int row, int column)? selectedPiece = null;
 
+        // Indicates if the game has finished
+        // It can be caused by either victory or forfeit
+        public bool isFinished = false;
+
         public Game(Player player)
         {
             this.player = player;
@@ -135,11 +139,17 @@ namespace SeegaLogic
             // Checks if there is a capture
             CheckCapture(newRow, newColumn);
 
+            // Checks if there is a victory
+            if (CheckVictory())
+            {
+                return true;
+            }
+
             // End turn and clear selected piece
             Turn = (Turn == 1) ? 2 : 1;
             selectedPiece = null;
 
-            return true;
+            return false;
         }
 
         // Checks for and performs captures in the four cardinal directions
@@ -168,9 +178,46 @@ namespace SeegaLogic
                     // Checks if an enemy piece is sandwiched between two of the current player's pieces
                     if (Board[nr, nc] == enemy && Board[fr, fc] == self)
                     {
-                        Board[nr, nc] = Cellstate.Empty; // captura
+                        Board[nr, nc] = Cellstate.Empty; // Piece is captured
+
                     }
                 }
+            }
+        }
+
+        // Counts and return the current number of selected player's pieces on the board 
+        // The player is selected through owner
+        private int CountPieces(Cellstate owner)
+        {
+            int numberOfPlayerPieces = 0;
+
+            foreach (var piece in Board)
+            {
+                if (piece == owner)
+                {
+                    numberOfPlayerPieces++;
+                }
+            }
+
+            return numberOfPlayerPieces;
+        }
+
+        // Checks for current player's victory
+        public bool CheckVictory()
+        {
+            // Defines who is the current player's opponent
+            Cellstate enemy = (this.player.ID == 1) ? Cellstate.Player2 : Cellstate.Player1;
+
+            // If the opponent holds no more pieces, the current player wins
+            if (CountPieces(enemy) == 0)
+            {
+                this.isFinished = true;
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
